@@ -8,7 +8,7 @@ const Users = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const loadAllUsersClickHandler = () => {
     setLoading(true);
     fetch("https://jsonplaceholder.typicode.com/users", {
       method: "GET",
@@ -24,38 +24,41 @@ const Users = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  };
 
-  const buttonClickHandler = (id) => {
+  const viewPostsButtonClickHandler = (id) => {
     navigate(`/${id}`);
   };
 
-  if (loading) {
-    return <LoadingSpinner></LoadingSpinner>;
-  }
-
   return (
     <div>
-      {users.map((user) => (
-        <div className="group-container">
-          <div className="group-header">
-            <label htmlFor="userId">User Id : </label>
-            <span id="userId">{user.id}</span>
+      <button className="outline-button" onClick={loadAllUsersClickHandler}>
+        Load users
+      </button>
+      {loading ? (
+        <LoadingSpinner></LoadingSpinner>
+      ) : (
+        users.map((user) => (
+          <div className="group-container">
+            <div className="group-header">
+              <label htmlFor="userId">User Id : </label>
+              <span id="userId">{user.id}</span>
+            </div>
+            <div key={user.id} className={classes.userInfoSection}>
+              <label htmlFor="userName">Name</label>
+              <span id="userName">{user.name}</span>
+              <label htmlFor="userEmail">Email</label>
+              <span is="userEmail">{user.email}</span>
+            </div>
+            <button
+              onClick={viewPostsButtonClickHandler.bind(this, user.id)}
+              className="primary-button "
+            >
+              See all posts
+            </button>
           </div>
-          <div key={user.id} className={classes.userInfoSection}>
-            <label htmlFor="userName">Name</label>
-            <span id="userName">{user.name}</span>
-            <label htmlFor="userEmail">Email</label>
-            <span is="userEmail">{user.email}</span>
-          </div>
-          <button
-            onClick={buttonClickHandler.bind(this, user.id)}
-            className="primary-button "
-          >
-            See all posts
-          </button>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };
