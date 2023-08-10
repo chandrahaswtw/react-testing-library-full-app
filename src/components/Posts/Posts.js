@@ -17,16 +17,18 @@ const Posts = (props) => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      fetch(`https://jsonplaceholder.typicode.com/posts/?userId=${id}`, {
+      fetch(`https://jsonplaceholder.typicode.com/posts?userId=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((res) => res.json())
-        .then((data) => setPostInfo(data))
+        .then((data) => {
+          setPostInfo(data);
+        })
         .catch((err) => {
-          console.error(err);
+          console.log(err);
         })
         .finally(() => {
           setLoading(false);
@@ -44,12 +46,12 @@ const Posts = (props) => {
         Go back
       </button>
       {postInfo.map((post) => (
-        <div className="group-container">
+        <div className="group-container" key={post.id}>
           <div className="group-header">
             <label htmlFor="postTitle">Post title : </label>
             <span id="postTitle">{post.title}</span>
           </div>
-          <div key={post.id} className={classes.postInfoSection}>
+          <div className={classes.postInfoSection}>
             <label htmlFor="userName">User Id: </label>
             <span id="userName">{post.userId}</span>
             <label htmlFor="userEmail">Body: </label>

@@ -17,7 +17,9 @@ const Users = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setUsers(data))
+      .then((data) => {
+        setUsers(data);
+      })
       .catch((err) => {
         console.error(err);
       })
@@ -39,20 +41,21 @@ const Users = () => {
         <LoadingSpinner></LoadingSpinner>
       ) : (
         users.map((user) => (
-          <div className="group-container">
+          <div className="group-container" key={user.id}>
             <div className="group-header">
-              <label htmlFor="userId">User Id : </label>
-              <span id="userId">{user.id}</span>
+              <label>User Id : </label>
+              <span aria-label="userID">{user.id}</span>
             </div>
             <div key={user.id} className={classes.userInfoSection}>
-              <label htmlFor="userName">Name</label>
-              <span id="userName">{user.name}</span>
-              <label htmlFor="userEmail">Email</label>
-              <span is="userEmail">{user.email}</span>
+              <label>Name</label>
+              <span>{user.name}</span>
+              <label>Email</label>
+              <span>{user.email}</span>
             </div>
             <button
-              onClick={viewPostsButtonClickHandler.bind(this, user.id)}
+              onClick={() => viewPostsButtonClickHandler(user.id)}
               className="primary-button "
+              aria-label={`see-posts-${user.id}`}
             >
               See all posts
             </button>
