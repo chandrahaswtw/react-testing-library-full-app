@@ -6,9 +6,7 @@ import { createServer } from "../../../test/server";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useParams: jest.fn(() => {
-    id: 44;
-  }),
+  useParams: jest.fn(),
   useNavigate: jest.fn(),
 }));
 
